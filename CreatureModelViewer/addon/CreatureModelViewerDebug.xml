@@ -1,0 +1,134 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ../FrameXML/UI.xsd">
+    <!-- Load after CreatureModelViewer.xml so viewer frame exists. -->
+    <Frame name="MagicCoreCreatureModelViewerDebugFrame" inherits="MetalFrame2X" enableMouse="true" movable="true" hidden="true" parent="UIParent">
+        <Size x="280" y="340"/>
+        <Anchors>
+            <Anchor point="LEFT" relativeTo="MagicCoreCreatureModelViewerFrame" relativePoint="RIGHT" x="10" y="0"/>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                if self.Title and self.Title.Text then self.Title.Text:SetText("Model Debug") end
+                if self.CloseButton then
+                    self.CloseButton:SetScript("OnClick", function()
+                        MagicCoreCreatureModelViewerDebugFrame:Hide()
+                    end)
+                end
+            </OnLoad>
+        </Scripts>
+        <Frames>
+            <Frame name="$parentEntryTitleFrame" parentKey="EntryTitleFrame" frameLevel="19">
+                <Size x="196" y="34"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentMetalBorder" relativePoint="TOP" x="13" y="-42"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="BACKGROUND">
+                        <Texture name="$parentBg" parentKey="Bg"/>
+                    </Layer>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentEntryText" parentKey="EntryText" inherits="GameFontHighlight">
+                            <Anchors>
+                                <Anchor point="LEFT" x="8" y="0"/>
+                                <Anchor point="RIGHT" x="-8" y="0"/>
+                                <Anchor point="CENTER" relativeTo="$parent" relativePoint="CENTER" x="0" y="0"/>
+                            </Anchors>
+                            <FontHeight val="14"/>
+                            <Color r="1" g="0.82" b="0"/>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Frame>
+
+            <FontString name="$parentPathText" parentKey="PathText" inherits="GameFontHighlight" frameLevel="20">
+                <Size x="256" y="120"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" relativeTo="$parent" relativePoint="BOTTOM" x="0" y="70"/>
+                </Anchors>
+                <FontHeight val="12"/>
+                <Color r="0.85" g="0.85" b="0.7"/>
+            </FontString>
+
+            <FontString name="$parentDebugInfo" parentKey="DebugInfo" inherits="GameFontHighlight" frameLevel="20">
+                <Size x="256" y="200"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentEntryTitleFrame" relativePoint="BOTTOM" x="0" y="-4"/>
+                </Anchors>
+                <FontHeight val="11"/>
+                <Color r="0.9" g="0.9" b="0.6"/>
+            </FontString>
+
+            <Frame name="$parentScaleRow" parentKey="ScaleRow">
+                <Size x="240" y="26"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentDebugInfo" relativePoint="BOTTOM" x="0" y="-32"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentLabel" parentKey="Label" inherits="GameFontHighlight" text="Scale:"/>
+                    </Layer>
+                </Layers>
+            </Frame>
+            <EditBox name="$parentScaleEdit" parentKey="ScaleEdit" inherits="InputBoxTemplate" frameLevel="21">
+                <Size x="60" y="22"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentScaleRow" relativePoint="RIGHT" x="4" y="0"/>
+                </Anchors>
+            </EditBox>
+
+            <Frame name="$parentPosRow" parentKey="PosRow">
+                <Size x="240" y="26"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentScaleRow" relativePoint="BOTTOM" x="0" y="-2"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentLabel" parentKey="Label" inherits="GameFontHighlight" text="Position X Y Z:"/>
+                    </Layer>
+                </Layers>
+            </Frame>
+            <EditBox name="$parentPosXEdit" parentKey="PosXEdit" inherits="InputBoxTemplate" frameLevel="21">
+                <Size x="50" y="22"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentPosRow" relativePoint="RIGHT" x="4" y="0"/>
+                </Anchors>
+            </EditBox>
+            <EditBox name="$parentPosYEdit" parentKey="PosYEdit" inherits="InputBoxTemplate" frameLevel="21">
+                <Size x="50" y="22"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentPosXEdit" relativePoint="RIGHT" x="2" y="0"/>
+                </Anchors>
+            </EditBox>
+            <EditBox name="$parentPosZEdit" parentKey="PosZEdit" inherits="InputBoxTemplate" frameLevel="21">
+                <Size x="50" y="22"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentPosYEdit" relativePoint="RIGHT" x="2" y="0"/>
+                </Anchors>
+            </EditBox>
+
+            <Frame name="$parentFacingRow" parentKey="FacingRow">
+                <Size x="240" y="26"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentPosRow" relativePoint="BOTTOM" x="0" y="-2"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentLabel" parentKey="Label" inherits="GameFontHighlight" text="Facing:"/>
+                    </Layer>
+                </Layers>
+            </Frame>
+            <EditBox name="$parentFacingEdit" parentKey="FacingEdit" inherits="InputBoxTemplate" frameLevel="21">
+                <Size x="80" y="22"/>
+                <Anchors>
+                    <Anchor point="LEFT" relativeTo="$parentFacingRow" relativePoint="RIGHT" x="4" y="0"/>
+                </Anchors>
+            </EditBox>
+
+            <Button name="$parentApplyButton" parentKey="ApplyButton" inherits="UIPanelButtonTemplate" frameLevel="21">
+                <Size x="100" y="22"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentFacingRow" relativePoint="BOTTOM" x="0" y="-10"/>
+                </Anchors>
+            </Button>
+        </Frames>
+    </Frame>
+</Ui>

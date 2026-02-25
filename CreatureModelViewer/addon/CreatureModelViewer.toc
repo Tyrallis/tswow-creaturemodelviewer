@@ -1,0 +1,11 @@
+# Creature Model Viewer (CMV) — addon TOC
+# Load order: template first, then viewer, then debug, then map data, then Lua.
+
+UITemplate2X.xml
+CreatureModelViewer.xml
+CreatureModelViewerDebug.xml
+CreatureDisplayIdMap.lua
+CreatureModelPathMap.lua
+CreatureVariantsMap.lua
+CreatureDisplayTexturesMap.lua
+CreatureModelViewer.lua

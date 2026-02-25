@@ -1,0 +1,109 @@
+<!-- Creature Model Viewer: main window. Requires UITemplate2X.xml (MetalFrame2X). -->
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ../FrameXML/UI.xsd">
+    <Frame name="MagicCoreCreatureModelViewerFrame" inherits="MetalFrame2X" enableMouse="true" movable="true" resizable="true" hidden="true" parent="UIParent">
+        <Size x="300" y="360"/>
+        <Anchors>
+            <Anchor point="CENTER" x="0" y="0"/>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                if self.CloseButton then
+                    self.CloseButton:SetScript("OnClick", function()
+                        MagicCoreCreatureModelViewerFrame:Hide()
+                    end)
+                end
+            </OnLoad>
+        </Scripts>
+        <Frames>
+            <PlayerModel name="$parentModel" parentKey="Model" frameLevel="15">
+                <Size x="260" y="270"/>
+                <Anchors>
+                    <Anchor point="TOP" relativeTo="$parentMetalBorder" relativePoint="TOP" x="0" y="-50"/>
+                    <Anchor point="LEFT" relativeTo="$parentMetalBorder" relativePoint="LEFT" x="10" y="0"/>
+                    <Anchor point="RIGHT" relativeTo="$parentMetalBorder" relativePoint="RIGHT" x="-10" y="0"/>
+                </Anchors>
+            </PlayerModel>
+
+            <FontString name="$parentInfoText" parentKey="InfoText" inherits="GameFontNormalSmall" frameLevel="20">
+                <Size x="260" y="30"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" relativeTo="$parentMetalBorder" relativePoint="BOTTOM" x="0" y="14"/>
+                </Anchors>
+                <FontHeight val="10"/>
+                <Color r="0.8" g="0.8" b="0.8"/>
+            </FontString>
+
+            <FontString name="$parentDebugText" parentKey="DebugText" inherits="GameFontNormalSmall" frameLevel="20" hidden="true">
+                <Size x="240" y="120"/>
+                <Anchors>
+                    <Anchor point="CENTER" relativeTo="$parentModel" relativePoint="CENTER" x="0" y="0"/>
+                </Anchors>
+                <FontHeight val="10"/>
+                <Color r="1" g="0.3" b="0.3"/>
+            </FontString>
+
+            <Button name="$parentSpawnButton" parentKey="SpawnButton" inherits="BigRedThreeSliceButtonTemplate" frameLevel="20">
+                <Size x="36" y="36"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT" relativeTo="$parentMetalBorder" relativePoint="BOTTOMLEFT" x="16" y="8"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentText" parentKey="Text" inherits="GameFontNormalSmall">
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Button>
+
+            <Button name="$parentDeleteButton" parentKey="DeleteButton" inherits="BigRedThreeSliceButtonTemplate" frameLevel="20">
+                <Size x="36" y="36"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentMetalBorder" relativePoint="BOTTOMRIGHT" x="-8" y="8"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentText" parentKey="Text" inherits="GameFontNormalSmall">
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Button>
+
+            <Button name="$parentDebugToggleButton" parentKey="DebugToggleButton" inherits="BigRedThreeSliceButtonTemplate" frameLevel="20">
+                <Size x="36" y="36"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" relativeTo="$parentMetalBorder" relativePoint="BOTTOM" x="0" y="8"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentText" parentKey="Text" inherits="GameFontNormalSmall">
+                            <Anchors>
+                                <Anchor point="CENTER" x="0" y="0"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </Button>
+
+            <CheckButton name="$parentPreferTexturesCheck" parentKey="PreferTexturesCheck" frameLevel="20">
+                <Size x="30" y="29"/>
+                <Anchors>
+                    <Anchor point="BOTTOMRIGHT" relativeTo="$parentDebugToggleButton" relativePoint="BOTTOMLEFT" x="-4" y="0"/>
+                </Anchors>
+                <Layers>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentBox" parentKey="Box" setAllPoints="true"/>
+                    </Layer>
+                    <Layer level="ARTWORK">
+                        <Texture name="$parentCheck" parentKey="Check" setAllPoints="true" hidden="true"/>
+                    </Layer>
+                </Layers>
+            </CheckButton>
+        </Frames>
+    </Frame>
+</Ui>
