@@ -1,70 +1,147 @@
-# Creature Model Viewer (CMV)
-Highly WIP, updates by the community is highly welcomed!
-Current Bugs are 
-- Some Models not loaded properly `specifically models like character//humanmale.mdx etc..` show blank
-- Most Models cant be resized or rotated
-- Animations are `very` short. only Freeze and Stand work fine.
-  
-In-game viewer for creature models on any **TSWoW** (TypeScript WoW) 3.3.5 core. View by creature entry, display ID, or raw `.m2` path; toggle between `SetCreature` (textured) and `SetModel(path)`; use the Model Debug panel for path, scale, camera, and animation.
+# 🧿 Creature Model Viewer (CMV)
 
-**Ready for GitHub:** clone or download this folder, then copy `addon/` and `datascripts/` into your TSWoW module.
+> In-game creature model viewer for **TSWoW (3.3.5)**
+> View creature models by Entry ID, Display ID, raw `.m2` path, or current target.
 
----
-
-## Features
-
-- **View by entry** — `/cmv 69953` uses datascript-built maps (entry → display ID → model path).
-- **View by path** — `/cmv path Creature/MyModel/creature.m2` to load any `.m2` directly.
-- **View target** — `/cmv unit` to show your current target’s model.
-- **Prefer textures** — Checkbox: ON = try `SetCreature` first (BLP from client DBC), then fall back to `SetModel(path)`; OFF = try path first.
-- **Model Debug panel** — Entry ID, display ID, full model path (scrollable), scale, facing, camera, animation dropdown, expected BLP list.
-- **Creature links** — Clicking creature links in chat can open the viewer when maps are built.
+![Status](https://img.shields.io/badge/status-WIP-orange)
+![Client](https://img.shields.io/badge/client-3.3.5-blue)
+![Core](https://img.shields.io/badge/core-TSWoW-purple)
+![Community](https://img.shields.io/badge/contributions-welcome-brightgreen)
 
 ---
 
-## Requirements
+🖼 Preview
+### Model Viewer + Debug Panel
+<p align="center"> <img src="https://raw.githubusercontent.com/Tyrallis/tswow-creaturemodelviewer/main/Screenshots/Screenshot%202026-02-24%20230434.png" width="48%"> <img src="https://raw.githubusercontent.com/Tyrallis/tswow-creaturemodelviewer/main/Screenshots/Screenshot%202026-02-24%20233611.png" width="48%"> </p> <p align="center"> <img src="https://raw.githubusercontent.com/Tyrallis/tswow-creaturemodelviewer/main/Screenshots/Screenshot%202026-02-24%20233620.png" width="48%"> <img src="https://raw.githubusercontent.com/Tyrallis/tswow-creaturemodelviewer/main/Screenshots/Screenshot%202026-02-25%20005942.png" width="48%"> </p>
 
-- **TSWoW** project (3.3.5 client).
-- Without built maps, only `/cmv path <path>` and `/cmv unit` work; `/cmv <entry>` needs the generated map files.
-- **UI textures (buttons, checkbox, arrows):**  
-  For atlas-based icons to display correctly, install **[iThorgrim's WotLK Atlas System](https://github.com/iThorgrim/WotLK-Atlas-System)** (adds `SetAtlas` / `C_Texture.LoadAtlasData` for 3.3.5).  
-  If you don’t install it, the addon falls back to standard WotLK textures (e.g. `UI-CheckBox-Up`, spellbook arrows); the viewer works, but some buttons may look different or use fallback art.
+
+
+Example: Entry `69953` loaded with full debug output including animation controls, scale adjustments, camera switching, and expected BLP texture information.
 
 ---
 
-## Installation (any TSWoW core)
+## ✨ Features
 
-### 0. (Optional) WotLK Atlas System — for atlas textures
+### 🔎 Multiple Viewing Modes
 
-The viewer uses atlas names for the **Prefer textures** checkbox, debug toggle, arrows, and other buttons. To have those resolve correctly:
+* **View by Entry**
 
-1. Download **[WotLK Atlas System](https://github.com/iThorgrim/WotLK-Atlas-System)** (Retail-style atlas API for 3.3.5).
-2. Copy `AtlasHelper.lua` and `AtlasInfo.lua` into your client’s `Interface/FrameXML/` (or follow the project’s install steps).
-3. Add them to the FrameXML `.toc` and reload UI.
+  ```
+  /cmv 69953
+  ```
 
-Without this, CMV still runs and uses built-in WotLK texture fallbacks for the same controls.
+  Uses datascript-generated maps (entry → display ID → model path).
 
-### 1. Copy addon files
+* **View by Path**
 
-Copy everything from **`addon/`** into your module’s addon folder:
+  ```
+  /cmv path Creature/MyModel/model.m2
+  ```
 
-`<your-tswow>/install/modules/<your-module>/addon/`
+  Directly loads any `.m2` file.
 
-| File | Purpose |
-|------|--------|
-| `UITemplate2X.xml` | Required: MetalFrame2X and button templates. |
-| `CreatureModelViewer.xml` | Viewer window. |
-| `CreatureModelViewerDebug.xml` | Debug panel. |
-| `CreatureModelViewer.lua` | All CMV logic. |
-| `CreatureModelViewer.toc` | Use as reference; copy its contents into your module’s main `.toc` in the same order. |
-| `CreatureDisplayIdMap.lua` | Placeholder; overwritten by datascripts build. |
-| `CreatureModelPathMap.lua` | Placeholder; overwritten by datascripts build. |
-| `CreatureVariantsMap.lua` | Placeholder; overwritten by datascripts build. |
-| `CreatureDisplayTexturesMap.lua` | Placeholder; overwritten by datascripts build. |
+* **View Target**
 
-### 2. TOC load order
+  ```
+  /cmv unit
+  ```
 
-In your addon’s `.toc`, include in this order (see `addon/CreatureModelViewer.toc`):
+  Loads the currently selected creature.
+
+* **Creature Hyperlink Support**
+  Clicking `.lookup creature` links can automatically open CMV when maps are available.
+
+---
+
+### 🎨 Texture Handling
+
+**Prefer Textures Toggle**
+
+| Mode  | Behavior                                                                            |
+| ----- | ----------------------------------------------------------------------------------- |
+| ✅ ON  | Try `SetCreature()` first (uses client DBC textures) → fallback to `SetModel(path)` |
+| ❌ OFF | Try `SetModel(path)` first → fallback to `SetCreature()`                            |
+
+Allows switching between fully textured display mode and raw model debugging.
+
+---
+
+### 🛠 Model Debug Panel
+
+The integrated debug panel provides:
+
+* Entry ID
+* Display ID
+* Full model path (scrollable)
+* Scale control
+* Facing control
+* Camera selection
+* Animation dropdown
+* Expected BLP texture list
+* Load source indicator
+
+Designed for development, asset testing, and troubleshooting custom models.
+
+---
+
+## ⚠️ Known Issues
+
+* Some models (e.g. `character//humanmale.mdx`) may load blank
+* Many models cannot currently be resized or rotated reliably
+* Most animations are short
+
+  * `Stand` and `Freeze` work correctly
+
+---
+
+## 📦 Requirements
+
+* **TSWoW Core**
+* **3.3.5 Client**
+* Generated map files required for `/cmv <entry>`
+
+Without generated maps, the following remain functional:
+
+* `/cmv path <path>`
+* `/cmv unit`
+
+---
+
+## 🧩 Optional: Atlas UI Support
+
+For Retail-style atlas icons and modern UI textures, install:
+
+**WotLK Atlas System**
+[https://github.com/iThorgrim/WotLK-Atlas-System](https://github.com/iThorgrim/WotLK-Atlas-System)
+
+Enables:
+
+* `SetAtlas`
+* `C_Texture.LoadAtlasData`
+
+Without it, CMV falls back to standard WotLK textures.
+
+---
+
+# 🚀 Installation
+
+## 1️⃣ Copy Addon Files
+
+Copy everything from:
+
+```
+addon/
+```
+
+Into:
+
+```
+<your-tswow>/install/modules/<your-module>/addon/
+```
+
+---
+
+## 📄 TOC Load Order (Important)
 
 ```toc
 UITemplate2X.xml
@@ -77,84 +154,129 @@ CreatureDisplayTexturesMap.lua
 CreatureModelViewer.lua
 ```
 
-### 3. Copy datascripts and build maps
+Load order must remain unchanged.
 
-Copy the **`datascripts/`** folder into your module so you have:
+---
 
-- `<your-module>/datascripts/GenerateCreatureMaps.ts`
-- `<your-module>/datascripts/Creatures/datascripts.ts` (optional, see below)
+## 2️⃣ Datascripts Setup
 
-**Option A — Maps only (no creature creation from assets)**  
-Wire `GenerateCreatureMaps` into your build:
+Copy the `datascripts/` folder into your module.
+
+---
+
+### Option A — Map Generation Only
 
 ```ts
 import { main as buildCreatureMaps } from "./GenerateCreatureMaps";
 
-std.Events.patch("your-patch-event-name", () => {
+std.Events.patch("your-event", () => {
   buildCreatureMaps();
 });
 ```
 
-**Option B — Maps + creature creation from .m2 assets (recommended)**  
-Use **`Creatures/datascripts.ts`** as-is. It already imports `GenerateCreatureMaps` and on the `spell-creature-create` patch it:
+Then run:
 
-1. Cleans up invalid creature templates (broken model refs).
-2. Scans `modules/<MODULE_NAME>/assets/` for `.m2` files and creates CreatureModelData, CreatureDisplayInfo, and creature_template for each.
-3. Writes the four CMV map `.lua` files (including the new entries) into your module’s addon folder.
+```
+build data
+```
 
-**Set your module name** in `Creatures/datascripts.ts`: change `MODULE_NAME` to your module (e.g. `"my-module"`). If `modules/<MODULE_NAME>/assets/` does not exist, the script still runs and only builds the maps from existing DBC. Set `ENABLE_SPAWNS = true` there if you want spawns added for each created creature.
+---
+
+### Option B — Full Asset Integration (Recommended)
+
+`Creatures/datascripts.ts` will:
+
+1. Clean invalid creature templates
+2. Scan `modules/<MODULE_NAME>/assets/` for `.m2` files
+3. Auto-create:
+
+   * CreatureModelData
+   * CreatureDisplayInfo
+   * creature_template
+4. Generate and write all CMV map `.lua` files
+
+Set your module name:
+
+```ts
+const MODULE_NAME = "your-module";
+```
+
+Optional:
+
+```ts
+ENABLE_SPAWNS = true;
+```
 
 Then run:
 
-```bash
-build data // build all
+```
+build data
 ```
 
-### 4. Reload UI
+---
 
-In-game, run `/reload` so the addon loads the new map files.
+## 🔄 Reload
+
+In-game:
+
+```
+/reload
+```
 
 ---
 
-## Usage
+# 🕹 Usage
 
-| Command | Description |
-|--------|-------------|
-| `/cmv` | Show help. |
-| `/cmv <entry>` | Open viewer for creature entry (e.g. `/cmv 69953`). |
-| `/cmv path <path>` | Open viewer for model path (e.g. `Creature/MyModel/model.m2`). |
-| `/cmv unit` | Load current target’s model (target a creature first). |
-| `Click Hyperlink generated by .lookup creature` | Starts up the ModelViewer instantly. |
-
-- **Prefer textures** (checkbox): ON = SetCreature first; OFF = SetModel(path) first.
-- **Model Debug** (wrench button): Path, scale, camera, animation, expected BLP.
-- **Animation** dropdown in the debug panel: Choose animation by index/name.
+| Command                  | Description           |
+| ------------------------ | --------------------- |
+| `/cmv`                   | Show help             |
+| `/cmv <entry>`           | Open viewer by entry  |
+| `/cmv path <path>`       | Load raw model        |
+| `/cmv unit`              | Load current target   |
+| Click creature hyperlink | Open viewer instantly |
 
 ---
 
-## Repository structure
+# 📁 Repository Structure
 
 ```
 CreatureModelViewer/
-  README.md                 (this file)
-  addon/
-    UITemplate2X.xml
-    CreatureModelViewer.xml
-    CreatureModelViewerDebug.xml
-    CreatureModelViewer.lua
-    CreatureModelViewer.toc
-    CreatureDisplayIdMap.lua    (placeholder)
-    CreatureModelPathMap.lua    (placeholder)
-    CreatureVariantsMap.lua     (placeholder)
-    CreatureDisplayTexturesMap.lua (placeholder)
-  datascripts/
-    GenerateCreatureMaps.ts       (map generator; required for CMV maps)
-    Creatures/
-      datascripts.ts              (optional: create creatures from .m2 under assets + build maps)
+│
+├── README.md
+│
+├── addon/
+│   ├── UITemplate2X.xml
+│   ├── CreatureModelViewer.xml
+│   ├── CreatureModelViewerDebug.xml
+│   ├── CreatureModelViewer.lua
+│   ├── CreatureModelViewer.toc
+│   ├── CreatureDisplayIdMap.lua
+│   ├── CreatureModelPathMap.lua
+│   ├── CreatureVariantsMap.lua
+│   └── CreatureDisplayTexturesMap.lua
+│
+└── datascripts/
+    ├── GenerateCreatureMaps.ts
+    └── Creatures/
+        └── datascripts.ts
 ```
 
 ---
 
-## License
+# 🤝 Contributing
 
-Use under the same terms as the TSWoW project you integrate with, unless stated otherwise in the repository.
+Contributions are welcome.
+
+Suggested areas:
+
+* Animation improvements
+* Model rotation & scaling stability
+* Camera refinement
+* UI polish
+* Performance optimization
+
+---
+
+# 📜 License
+
+Use under the same terms as the TSWoW project you integrate with, unless otherwise specified in this repository.
