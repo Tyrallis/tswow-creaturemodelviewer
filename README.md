@@ -4,6 +4,7 @@ Current Bugs are
 - Some Models not loaded properly `specifically models like character//humanmale.mdx etc..` show blank
 - Most Models cant be resized or rotated
 - Animations are `very` short. only Freeze and Stand work fine.
+  
 In-game viewer for creature models on any **TSWoW** (TypeScript WoW) 3.3.5 core. View by creature entry, display ID, or raw `.m2` path; toggle between `SetCreature` (textured) and `SetModel(path)`; use the Model Debug panel for path, scale, camera, and animation.
 
 **Ready for GitHub:** clone or download this folder, then copy `addon/` and `datascripts/` into your TSWoW module.
